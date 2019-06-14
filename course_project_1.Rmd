@@ -39,7 +39,9 @@ steps_per_day
 ```
 Now we will make an histogram using the object steps_per_day.  
 ```{r warning=FALSE, error=FALSE, echo=TRUE}
+png("histogram.png")
 hist(steps_per_day$Steps, main = "Total number of steps taken per day", xlab = "Steps taken per day", col = "yellow", ylim = c(0,20), breaks = seq(0,25000, by=2000))
+dev.off()
 ```
 Mean of the total number of steps taken per day
 ```{r warning=FALSE, error=FALSE, echo=TRUE}
@@ -61,7 +63,9 @@ steps_per_interval
 ```
 Now we will make a time series plot using the object steps_per_interval
 ```{r warning=FALSE, error=FALSE, echo=TRUE}
+png("timeSeries.png")
 plot(steps_per_interval$Interval, steps_per_interval$Steps, type = "l", col="black", lwd = 2, xlab="Interval", ylab="Average number of steps", main="Average number of steps per intervals")
+dev.off()
 ```
 Interval which has the maximum average for the number of steps taken
 ```{r warning=FALSE, error=FALSE, echo=TRUE}
@@ -85,7 +89,9 @@ Now we will aggregate the sum of the steps taken on a particular date and assign
 imputed_steps_per_day <- aggregate(imputed_data$steps, by = list(imputed_data$date), FUN = sum)
 names(imputed_steps_per_day) <- c("Date", "Steps")
 imputed_steps_per_day
+png("imputedHistorgram.png")
 hist(imputed_steps_per_day$Steps, main = "Total number of steps taken per day (Imputed Data", xlab = "Steps taken per day", col = "yellow", ylim = c(0,25), breaks = seq(0,25000, by=2000))
+dev.off()
 ```
 Mean of the total number of steps taken per day (Imputed Data)
 ```{r warning=FALSE, error=FALSE, echo=TRUE}
@@ -118,9 +124,11 @@ Now, we will aggregate steps taken at a particular interval of a day differently
 datetype_steps_per_interval <- aggregate(data$steps, by = list(data$interval,data$datetype), FUN = mean, na.rm = TRUE)
 names(datetype_steps_per_interval) <- c("Interval", "Daytype", "Steps")
 datetype_steps_per_interval
+png("panel.png")
 plot<- ggplot(datetype_steps_per_interval, aes(x = Interval , y = Steps, color = Daytype))
 plot <- plot + geom_line() 
 plot <- plot + labs(title = "Average daily steps by type of day", x = "Interval", y = "Average number of steps")
 plot <- plot + facet_wrap(~Daytype, ncol = 1, nrow=2)
 plot
+dev.off()
 ```
